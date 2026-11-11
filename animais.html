@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Animais - Adoptails</title>
+  <link rel="stylesheet" href="animais.css">
+  <style>
+    /* Estilos rápidos para as abas e formulários da página de catálogo */
+    .abas-container { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+    .aba-btn { padding: 10px 25px; border: 2px solid var(--teal); background: transparent; color: var(--teal); font-weight: bold; border-radius: 20px; cursor: pointer; }
+    .aba-btn.ativa { background: var(--teal); color: #fff; }
+    .aba-conteudo { display: none; }
+    .aba-conteudo.ativa { display: block; }
+    .form-doacao { max-width: 500px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); text-align: left; }
+    .form-grupo { margin-bottom: 15px; display: flex; flex-direction: column; }
+    .form-grupo label { font-weight: 600; margin-bottom: 5px; }
+    .form-grupo input, .form-grupo select { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+    .form-doacao button { width: 100%; padding: 12px; background: var(--laranja); border: none; color: white; font-weight: bold; font-size: 1rem; border-radius: 8px; cursor: pointer; }
+
+    /* Prévia da foto escolhida */
+    .previa-foto { display: block; width: 140px; height: 140px; object-fit: cover; margin-top: 10px; border-radius: 12px; border: 2px solid #ddd; }
+    .previa-foto[hidden] { display: none; }
+    .dica-foto { font-size: 0.85rem; color: #666; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+  <header class="cabeca">
+    <a href="index.html" class="logo">logo aqui</a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="sobrenos.html">Sobre Nós</a>
+      <a href="animais.html" class="ativo">Adotar</a>
+      <a href="ajuda.html">Como Ajudar</a>
+      <a href="index.html#contato">Contato</a>
+      <a href="#" class="btn-entrar">ENTRAR</a>
+    </nav>
+  </header>
+
+  <div class="abas-container">
+    <button class="aba-btn ativa" onclick="mudarAba('catalogo')">🐾 Quero Adotar</button>
+    <button class="aba-btn" onclick="mudarAba('doar')"> Registrar Animal para Doação</button>
+  </div>
+
+  <!-- ABA 1: CATÁLOGO DE ANIMAIS -->
+  <main id="aba-catalogo" class="aba-conteudo ativa">
+    <section class="secao">
+      <h2 class="titulo">Animais Esperando um Lar</h2>
+      <div class="cards" id="lista-animais">
+        <p>Carregando animais...</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ABA 2: FORMULÁRIO DE DOAÇÃO (CADASTRAR ANIMAL) -->
+  <section id="aba-doar" class="aba-conteudo">
+    <div class="form-doacao">
+      <h2 style="text-align: center; margin-bottom: 20px;">Oferecer Animal para Adoção</h2>
+      <form id="form-cadastrar-animal">
+        <div class="form-grupo">
+          <label for="nome">Nome do Pet</label>
+          <input type="text" id="nome" required placeholder="Ex: Bob, Mel">
+        </div>
+        <div class="form-grupo">
+          <label for="especie">Espécie</label>
+          <select id="especie" required>
+            <option value="Cachorro">Cachorro</option>
+            <option value="Gato">Gato</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="form-grupo">
+          <label for="idade">Idade / Porte</label>
+          <input type="text" id="idade" required placeholder="Ex: 2 anos, Filhote">
+        </div>
+
+        <!-- FOTO: a pessoa escolhe a imagem do computador ou do celular -->
+        <div class="form-grupo">
+          <label for="arquivo-foto">Foto do Pet</label>
+          <input type="file" id="arquivo-foto" accept="image/*">
+          <p class="dica-foto">Escolha uma imagem do seu aparelho (JPG, PNG...).</p>
+          <img id="previa-foto" class="previa-foto" alt="Prévia da foto escolhida" hidden>
+
+          <!-- Campo escondido: guarda a imagem em texto e mantém o mesmo id "foto" que o animais.js já usa -->
+          <input type="hidden" id="foto">
+        </div>
+
+        <button type="submit">CADASTRAR PET</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Converte a imagem escolhida em texto e coloca no campo escondido #foto
+    const arquivoFoto = document.getElementById("arquivo-foto");
+    const campoFoto = document.getElementById("foto");
+    const previaFoto = document.getElementById("previa-foto");
+
+    arquivoFoto.addEventListener("change", () => {
+      const arquivo = arquivoFoto.files[0];
+      if (!arquivo) { limparFoto(); return; }
+
+      const leitor = new FileReader();
+      leitor.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          // Reduz a imagem (máx. 500px) para não pesar no armazenamento
+          const escala = Math.min(1, 500 / Math.max(img.width, img.height));
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(img.width * escala);
+          canvas.height = Math.round(img.height * escala);
+          canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+          campoFoto.value = canvas.toDataURL("image/jpeg", 0.8);
+          previaFoto.src = campoFoto.value;
+          previaFoto.hidden = false;
+        };
+        img.onerror = () => { alert("Não foi possível ler essa imagem. Escolha outro arquivo."); limparFoto(); };
+        img.src = leitor.result;
+      };
+      leitor.readAsDataURL(arquivo);
+    });
+
+    function limparFoto() {
+      campoFoto.value = "";
+      previaFoto.hidden = true;
+    }
+
+    // Quando o formulário é limpo (depois de cadastrar), limpa a foto também
+    document.getElementById("form-cadastrar-animal").addEventListener("reset", limparFoto);
+  </script>
+
+  <!-- Lê diretamente o animais.js que está na mesma pasta -->
+  <script src="animais.js"></script>
+</body>
+</html>

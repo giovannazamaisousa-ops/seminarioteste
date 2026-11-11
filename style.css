@@ -1,0 +1,245 @@
+:root {
+  --azul-claro: #b3d4ea;
+  --azul-escuro: #0f2552;
+  --laranja: #f29b4b;
+  --verde: #4f9a5e;
+  --teal: #2f6a8d;
+  --creme: #fdeee0;
+  --rodape: #cfe3f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--azul-escuro);
+  border-top: 14px solid var(--laranja);
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.cabeca {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 40px;
+  background: #fff;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.cabeca nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.cabeca nav a {
+  font-weight: 600;
+  padding-bottom: 3px;
+}
+
+.cabeca nav a.ativo {
+  border-bottom: 2px solid var(--laranja);
+}
+
+.inicio {
+  background: var(--azul-claro);
+  text-align: center;
+  padding: 70px 20px 80px;
+}
+
+.inicio h1 {
+  font-size: clamp(3rem, 9vw, 6rem);
+  color: var(--azul-escuro);
+}
+
+.inicio h2 {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  margin-bottom: 30px;
+}
+
+.botao {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  color: #fff;
+  font-weight: 700;
+  font-size: .9rem;
+  padding: 14px 28px;
+  border-radius: 30px;
+  transition: transform .2s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+.btn.verde {
+  background: var(--verde);
+}
+
+.btn.laranja {
+  background: var(--laranja);
+}
+
+.secao {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.secao.creme {
+  background: var(--creme);
+}
+
+.titulo {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 200px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+  overflow: hidden;
+  padding-bottom: 14px;
+}
+
+.card img,
+.card .sem-foto {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.card .sem-foto {
+  background: var(--azul-claro);
+  font-size: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card h3 {
+  margin-top: 10px;
+}
+
+.card p {
+  font-size: .85rem;
+  margin: 4px 0 10px;
+}
+
+.card button {
+  background: var(--verde);
+  color: #fff;
+  border: none;
+  padding: 7px 20px;
+  border-radius: 16px;
+  font-size: .75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background: #3f7f4c;
+}
+
+.ajuda {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.ajuda>div {
+  max-width: 240px;
+}
+
+.icone {
+  font-size: 3rem;
+}
+
+.ajuda h3 {
+  color: var(--azul-escuro);
+  margin: 8px 0;
+}
+
+.ajuda p {
+  font-size: .9rem;
+}
+
+footer {
+  background: var(--rodape);
+}
+
+.rodape {
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+  flex-wrap: wrap;
+  padding: 35px 20px;
+}
+
+.rodape h4 {
+  margin-bottom: 8px;
+}
+
+.rodape a {
+  display: block;
+  font-size: .85rem;
+  margin-bottom: 5px;
+}
+
+.redes {
+  margin-top: 10px;
+  font-size: 1.4rem;
+}
+
+.copyright {
+  background: var(--laranja);
+  padding: 10px;
+  font-size: .8rem;
+  text-align: center;
+}
+
+.topo-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--verde);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
